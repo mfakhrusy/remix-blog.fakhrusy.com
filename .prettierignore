@@ -1,0 +1,5 @@
+package-lock.json
+build
+.vercel
+.cache
+api/_build

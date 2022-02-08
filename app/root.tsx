@@ -4,13 +4,24 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
+  ScrollRestoration,
 } from "remix";
 import type { MetaFunction } from "remix";
+import globalStyles from "~/styles/global.css";
+import sharedStyles from "~/styles/shared.module.css";
+import headerStyles from "~/styles/header.module.css";
 
 export const meta: MetaFunction = () => {
   return { title: "New Remix App" };
 };
+
+export function links() {
+  return [
+    { rel: "stylesheet", href: globalStyles },
+    { rel: "stylesheet", href: sharedStyles },
+    { rel: "stylesheet", href: headerStyles },
+  ];
+}
 
 export default function App() {
   return (
