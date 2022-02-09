@@ -44,18 +44,31 @@
 }
 
 .titleContainer {
+  background-color: inherit;
+  border: none;
   display: inline-flex;
-  align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
 }
+
+.titleContainer h3 {
+  color: #3291ff;
+  font-size: 1rem;
+  text-align: left;
+}
+
 .draftBadge {
   border-radius: 16px;
   background-color: black;
   color: white;
   font-size: 14px;
   font-weight: 200;
-  padding: 2px 7px;
+  padding: 4px 7px;
   margin-right: 6px;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .noPosts {
@@ -75,9 +88,6 @@
 .postPreview h3,
 .post h1 {
   margin-bottom: 0;
-}
-
-.post h1 {
   margin-top: 0;
 }
 

@@ -1,0 +1,13 @@
+diff --git a/node_modules/@notionhq/client/build/src/api-endpoints.d.ts b/node_modules/@notionhq/client/build/src/api-endpoints.d.ts
+index 1476d6a..d510ee5 100644
+--- a/node_modules/@notionhq/client/build/src/api-endpoints.d.ts
++++ b/node_modules/@notionhq/client/build/src/api-endpoints.d.ts
+@@ -6516,7 +6516,7 @@ declare type GetBlockPathParameters = {
+     block_id: IdRequest;
+ };
+ export declare type GetBlockParameters = GetBlockPathParameters;
+-export declare type GetBlockResponse = PartialBlockObjectResponse | BlockObjectResponse;
++export declare type GetBlockResponse = PartialBlockObjectResponse & BlockObjectResponse;
+ export declare const getBlock: {
+     readonly method: "get";
+     readonly pathParams: readonly ["block_id"];

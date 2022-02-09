@@ -12,7 +12,7 @@ import sharedStyles from "~/styles/shared.module.css";
 import headerStyles from "~/styles/header.module.css";
 
 export const meta: MetaFunction = () => {
-  return { title: "New Remix App" };
+  return { title: "Fahru's Brain Dumps" };
 };
 
 export function links() {

@@ -1,17 +1,9 @@
-export const getBlogLink = (slug: string) => {
-  return `/${slug}`;
-};
-
 export const getDateStr = (date: string) => {
   return new Date(date).toLocaleString("en-US", {
     month: "long",
     day: "2-digit",
     year: "numeric",
   });
-};
-
-export const postIsPublished = (post: any): boolean => {
-  return post.Published === "Yes";
 };
 
 export const normalizeSlug = (slug: string): string => {
