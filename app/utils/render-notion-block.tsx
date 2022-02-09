@@ -1,4 +1,5 @@
 import React from "react";
+import Code from "~/components/code";
 import NotionText from "~/components/notion-text";
 
 export default function renderBlock(block: any) {
@@ -75,11 +76,7 @@ export default function renderBlock(block: any) {
       return <blockquote key={id}>{value.text[-1]?.plain_text}</blockquote>;
     case "code":
       return (
-        <pre className={"pre"}>
-          <code className={"code_block"} key={id}>
-            {value.text[-1]?.plain_text}
-          </code>
-        </pre>
+        <Code language={value.language} text={value.text[0]?.plain_text} />
       );
     case "file":
       const src_file =
@@ -98,6 +95,21 @@ export default function renderBlock(block: any) {
           {caption_file && <figcaption>{caption_file}</figcaption>}
         </figure>
       );
+    case "video": {
+      return (
+        <video
+          key={id}
+          src={value.file.url}
+          controls
+          loop
+          muted
+          autoPlay
+          style={{
+            width: "100%",
+          }}
+        />
+      );
+    }
     default:
       return `❌ Unsupported block (${
         type === "unsupported" ? "unsupported by Notion API" : type
