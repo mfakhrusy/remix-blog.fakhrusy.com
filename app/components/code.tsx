@@ -1,44 +1,36 @@
-import { PropsWithChildren } from "react";
-import Prism from "prismjs";
-import "prismjs/components/prism-jsx";
+import Highlight, { defaultProps, Language } from "prism-react-renderer";
+import theme from "prism-react-renderer/themes/nightOwl";
 
 type Props = {
-  language: string;
+  language: Language;
   text: string;
 };
 
 const Code = ({ text, language = "javascript" }: Props) => {
   return (
-    <>
-      <pre>
-        <code
-          dangerouslySetInnerHTML={{
-            __html: Prism.highlight(
-              text,
-              Prism.languages[language.toLowerCase()] ||
-                Prism.languages.javascript,
-              language
-            ),
+    <Highlight {...defaultProps} theme={theme} code={text} language={language}>
+      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+        <pre
+          className={className}
+          style={{
+            ...style,
+            textAlign: "left",
+            margin: "1em 0",
+            padding: "0.5em",
+            overflow: "auto",
+            fontSize: "0.9rem",
           }}
-        />
-      </pre>
-
-      <style>{`
-        pre {
-          tab-size: 2;
-        }
-
-        code {
-          overflow: auto;
-          display: block;
-          padding: 0.8rem;
-          line-height: 1.5;
-          background: #f5f5f5;
-          font-size: 0.75rem;
-          border-radius: var(--radius);
-        }
-      `}</style>
-    </>
+        >
+          {tokens.map((line, i) => (
+            <div {...getLineProps({ line, key: i })}>
+              {line.map((token, key) => (
+                <span {...getTokenProps({ token, key })} />
+              ))}
+            </div>
+          ))}
+        </pre>
+      )}
+    </Highlight>
   );
 };
 
