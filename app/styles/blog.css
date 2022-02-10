@@ -91,32 +91,36 @@
   margin-top: 0;
 }
 
-.post :global(h2),
-.post :global(h3) {
+.post h1 {
+  line-height: 1.2;
+}
+
+.post h2,
+.post h3 {
   margin: 3rem 0 1.5rem 0;
 }
 
-.post :global(video),
-.post :global(.asset-wrapper) {
+.post video,
+.post .asset-wrapper {
   margin: 2rem auto;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
   max-width: 100%;
   display: block;
 }
 
-.post :global(img) {
+.post img {
   margin: 2rem auto 3rem auto;
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
   max-width: 100%;
   display: block;
 }
 
-.post :global(.tweet) {
+.post .tweet {
   margin: 2rem auto;
   text-align: center;
 }
 
-.post :global(.callout) {
+.post .callout {
   padding: 16px 16px 16px 12px;
   display: flex;
   width: 100%;
@@ -127,15 +131,15 @@
   background: rgba(235, 236, 237, 0.6);
 }
 
-.post :global(.callout .text) {
+.post .callout .text {
   margin-left: 8px;
 }
 
-.post :global(.underline) {
+.post .underline {
   text-decoration: underline;
 }
 
-.postPreview :global(.posted) {
+.postPreview .posted {
   margin-top: 0.1em;
   margin-bottom: 0.5em;
   color: #555;
@@ -148,12 +152,8 @@
   padding: 5%;
 }
 
-.post :global(hr) {
+.post hr {
   margin-bottom: 2em;
-}
-
-.post :global(a + p) {
-  margin-top: 0;
 }
 
 .bookmark {

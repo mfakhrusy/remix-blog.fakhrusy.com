@@ -1,6 +1,5 @@
 import ExtLink from "~/components/ext-link";
 import { Link } from "remix";
-// import styles from "styles/header.module.css";
 
 const navItems: { label: string; page?: string; link?: string }[] = [
   { label: "Home", page: "/" },
@@ -14,9 +13,10 @@ const newOgImageURL = "https://blog.fakhrusy.com/neuron.jpg";
 type Props = {
   titlePrefix?: string;
   imagePreview?: string; // image name that will be used as preview
+  pathname: string;
 };
 
-const Header = ({ titlePrefix, imagePreview }: Props) => {
+export default function Header({ titlePrefix, imagePreview, pathname }: Props) {
   // const { pathname } = useRouter();
 
   const title = `${titlePrefix ? `${titlePrefix} |` : ""} Fahru's Brain Dumps`;
@@ -53,9 +53,9 @@ const Header = ({ titlePrefix, imagePreview }: Props) => {
       </Head> */}
       <ul>
         {navItems
-          .filter((item) => {
+          .filter(({ page }) => {
             if (isIframe) {
-              if (item.page) {
+              if (page) {
                 return true;
               } else {
                 return false;
@@ -67,8 +67,8 @@ const Header = ({ titlePrefix, imagePreview }: Props) => {
           .map(({ label, page, link }) => (
             <li key={label}>
               {page ? (
-                <Link to={page}>
-                  <a className={undefined}>{label}</a>
+                <Link to={page} className={pathname === page ? "active" : ""}>
+                  {label}
                 </Link>
               ) : (
                 <ExtLink href={link}>{label}</ExtLink>
@@ -78,6 +78,4 @@ const Header = ({ titlePrefix, imagePreview }: Props) => {
       </ul>
     </header>
   );
-};
-
-export default Header;
+}

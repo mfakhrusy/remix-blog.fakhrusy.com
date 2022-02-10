@@ -1,26 +1,29 @@
 import { useLoaderData } from "remix";
 import { getDatabase } from "~/notion.server";
 import Header from "~/components/header";
-import { PostedDate } from "~/components/postedDate";
-import blogStyles from "~/styles/blog.module.css";
+import { PostedDate } from "~/components/posted-date";
+import blogStyles from "~/styles/blog.css";
 import { useEffect } from "react";
+import { DataFunctionArgs } from "@remix-run/server-runtime";
 
 export function links() {
   return [{ rel: "stylesheet", href: blogStyles }];
 }
 
-export const loader = async () => {
+export const loader = async ({ request, params }: DataFunctionArgs) => {
+  const pathname = new URL(request.url).pathname;
   return {
     posts: await getDatabase({
       database_id: process.env.NOTION_DATABASE_ID ?? "",
     }),
+    pathname,
   };
 };
 
 type LoaderData = Awaited<ReturnType<typeof loader>>;
 
 export default function Index() {
-  const { posts } = useLoaderData<LoaderData>();
+  const { posts, pathname } = useLoaderData<LoaderData>();
 
   const isDevelopment = process.env.NODE_ENV === "development";
 
@@ -32,9 +35,9 @@ export default function Index() {
 
   return (
     <>
-      <Header titlePrefix="Blog" />
+      <Header titlePrefix="Blog" pathname={pathname} />
       <div className="layout blogIndex">
-        <h1>Fahru's Brain Dumps</h1>
+        <h1 style={{ textAlign: "center" }}>Fahru's Brain Dumps</h1>
         {posts.length === 0 ? (
           <p className="noPosts">
             There seems to be a problem with the Notion API :( Please keep

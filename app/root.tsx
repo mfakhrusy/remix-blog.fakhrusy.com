@@ -8,8 +8,8 @@ import {
 } from "remix";
 import type { MetaFunction } from "remix";
 import globalStyles from "~/styles/global.css";
-import sharedStyles from "~/styles/shared.module.css";
-import headerStyles from "~/styles/header.module.css";
+import sharedStyles from "~/styles/shared.css";
+import headerStyles from "~/styles/header.css";
 
 export const meta: MetaFunction = () => {
   return { title: "Fahru's Brain Dumps" };

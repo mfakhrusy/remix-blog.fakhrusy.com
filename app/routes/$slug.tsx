@@ -4,13 +4,14 @@ import { useLoaderData } from "remix";
 import Header from "~/components/header";
 import { getBlockChildren, getDatabase, getPagetTitle } from "~/notion.server";
 import renderBlock from "~/utils/render-notion-block";
-import blogStyles from "~/styles/blog.module.css";
+import blogStyles from "~/styles/blog.css";
 
 export function links() {
   return [{ rel: "stylesheet", href: blogStyles }];
 }
 
-export const loader = async ({ params }: DataFunctionArgs) => {
+export const loader = async ({ params, request }: DataFunctionArgs) => {
+  const pathname = new URL(request.url).pathname;
   const { slug } = params;
   const filteredDatabase = await getDatabase({
     database_id: process.env.NOTION_DATABASE_ID ?? "",
@@ -28,6 +29,7 @@ export const loader = async ({ params }: DataFunctionArgs) => {
   return {
     pageTitle,
     blocks,
+    pathname,
   };
 };
 
@@ -41,7 +43,7 @@ export default function BlogPost() {
 
   return (
     <>
-      <Header titlePrefix="Blog" />
+      <Header titlePrefix="Blog" pathname={loaderData.pathname} />
       <article className="layout blogIndex post">
         <h1>{pageTitle}</h1>
         <section>
