@@ -2,7 +2,7 @@ import { DataFunctionArgs } from "@remix-run/server-runtime";
 import React from "react";
 import { useLoaderData } from "remix";
 import Header from "~/components/header";
-import { getBlockChildren, getDatabase, getPagetTitle } from "~/notion.server";
+import { getBlockChildren, getDatabase } from "~/notion.server";
 import renderBlock from "~/utils/render-notion-block";
 import blogStyles from "~/styles/blog.css";
 
@@ -23,7 +23,9 @@ export const loader = async ({ params, request }: DataFunctionArgs) => {
     },
   });
 
-  const pageTitle = await getPagetTitle(filteredDatabase[0].id);
+  const pageTitle = filteredDatabase[0].properties["Page"].type === "title" ? (
+    filteredDatabase[0].properties["Page"].title[0].plain_text
+  ) : "";
   const blocks = await getBlockChildren(filteredDatabase[0].id);
 
   return {

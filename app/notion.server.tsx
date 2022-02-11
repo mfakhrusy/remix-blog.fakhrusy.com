@@ -22,16 +22,6 @@ export const getPage = async (pageId: string) => {
   return response;
 };
 
-export const getPagetTitle = async (blockId: string) => {
-  const parentBlock: GetBlockResponse = await notionClient.blocks.retrieve({
-    block_id: blockId,
-  });
-  const title =
-    parentBlock.type === "child_page" ? parentBlock.child_page.title : "";
-
-  return title;
-};
-
 export const getBlockChildren = async (blockId: string) => {
   const blocks = [];
   let cursor;
