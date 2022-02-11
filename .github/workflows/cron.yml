@@ -1,0 +1,13 @@
+name: 15-minute-cron
+on:
+  schedule:
+    - cron: '*/55 * * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call refresh redis
+        run: |
+          curl --request POST \
+          --url 'https://blog.fakhrusy.com/api/refresh-redis' \
+          --header 'Authorization: Bearer ${{ secrets.API_SECRET_KEY }}'
