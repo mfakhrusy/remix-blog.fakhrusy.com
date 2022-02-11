@@ -1,3 +1,4 @@
+// please keep this in sync with api/refresh-redis.ts
 import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
 import { set } from "@upstash/redis";
