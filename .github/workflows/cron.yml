@@ -1,7 +1,7 @@
 name: cron-refresh-redis
 on:
   schedule:
-    - cron: '*/55 * * * *'
+    - cron: '*/52 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
