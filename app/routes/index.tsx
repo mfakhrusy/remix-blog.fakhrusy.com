@@ -62,7 +62,7 @@ export default function Index() {
                     {isPublished ? null : (
                       <div className="draftBadge">Draft</div>
                     )}
-                    <NavLink rel="prefetch" prefetch="render" to={slug}>
+                    <NavLink rel="prefetch" prefetch="intent" to={slug}>
                       <h3>{title}</h3>
                     </NavLink>
                   </div>
