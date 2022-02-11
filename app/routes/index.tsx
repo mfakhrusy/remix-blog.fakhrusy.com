@@ -1,4 +1,4 @@
-import { useLoaderData } from "remix";
+import { Link, useLoaderData } from "remix";
 import { getDatabase } from "~/notion.server";
 import Header from "~/components/header";
 import { PostedDate } from "~/components/posted-date";
@@ -84,9 +84,9 @@ export default function Index() {
               <div className="postPreview" key={slug}>
                 <div>
                   {isPublished ? null : <div className="draftBadge">Draft</div>}
-                  <a href={`/${slug}`}>
+                  <Link prefetch="intent" to={`/${slug}`}>
                     <h3>{title}</h3>
-                  </a>
+                  </Link>
                 </div>
                 <PostedDate dateString={dateString} />
                 {excerpt === "" ? null : <p className={`excerpt`}>{excerpt}</p>}

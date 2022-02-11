@@ -11,6 +11,8 @@ export function links() {
 }
 
 export const loader = async ({ params, request }: DataFunctionArgs) => {
+  console.time("notion_page");
+  console.time("notion_page_full");
   const pathname = new URL(request.url).pathname;
   const { slug } = params;
   const filteredDatabase = await getDatabase({
@@ -22,11 +24,13 @@ export const loader = async ({ params, request }: DataFunctionArgs) => {
       },
     },
   });
+  console.timeEnd("notion_page");
 
   const pageTitle = filteredDatabase[0].properties["Page"].type === "title" ? (
     filteredDatabase[0].properties["Page"].title[0].plain_text
   ) : "";
   const blocks = await getBlockChildren(filteredDatabase[0].id);
+  console.timeEnd("notion_page_full");
 
   return {
     pageTitle,
