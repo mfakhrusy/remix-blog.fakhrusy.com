@@ -2,9 +2,9 @@ import { DataFunctionArgs } from "@remix-run/server-runtime";
 import React from "react";
 import { useLoaderData } from "remix";
 import Header from "~/components/header";
-import { getBlockChildren, getDatabase } from "~/notion.server";
 import renderBlock from "~/utils/render-notion-block";
 import blogStyles from "~/styles/blog.css";
+import { get } from "@upstash/redis";
 
 export function links() {
   return [{ rel: "stylesheet", href: blogStyles }];
@@ -13,31 +13,11 @@ export function links() {
 export const loader = async ({ params, request }: DataFunctionArgs) => {
   const pathname = new URL(request.url).pathname;
   const { slug } = params;
-  const filteredDatabase =
-    slug === ""
-      ? null
-      : await getDatabase({
-          database_id: process.env.NOTION_DATABASE_ID ?? "",
-          filter: {
-            property: "Slug",
-            rich_text: {
-              equals: slug ?? "",
-            },
-          },
-        });
+  const blogPostRedis = await get(`blogPost:${slug}`);
+  const { title, blocks } = JSON.parse(blogPostRedis.data);
 
-  const pageTitle =
-    filteredDatabase &&
-       filteredDatabase[0].properties["Page"].type === "title"
-        ? filteredDatabase[0].properties["Page"].title[0].plain_text
-        : ""
-
-  const blocks =
-    filteredDatabase &&
-       await getBlockChildren(filteredDatabase[0].id)
-      
   return {
-    pageTitle,
+    pageTitle: title,
     blocks,
     pathname,
   };
@@ -57,7 +37,7 @@ export default function BlogPost() {
       <article className="layout blogIndex post">
         <h1>{pageTitle}</h1>
         <section>
-          {blocks.map((block) => (
+          {blocks.map((block: any) => (
             <React.Fragment key={block.id}>{renderBlock(block)}</React.Fragment>
           ))}
           <a href="/" className={"back"}>

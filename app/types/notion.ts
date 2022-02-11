@@ -1,3 +1,12 @@
+export interface BlogIndexObject {
+  id: string;
+  slug: string;
+  date: string;
+  title: string;
+  excerpt: string;
+  isPublished: boolean;
+}
+
 export interface NotionQueryResultObject {
   object: "list" | "page" | "database";
   id: string;

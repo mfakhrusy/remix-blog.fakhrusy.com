@@ -1,9 +1,6 @@
 // https://github.com/samuelkraft/notion-blog-nextjs/blob/master/lib/notion.js -> change to typescript and other things
 import { Client } from "@notionhq/client";
-import {
-  GetBlockResponse,
-  QueryDatabaseParameters,
-} from "@notionhq/client/build/src/api-endpoints";
+import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
 import { NotionQueryResultObject } from "./types/notion";
 
 export const notionClient = new Client({
