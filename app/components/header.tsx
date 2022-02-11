@@ -67,7 +67,11 @@ export default function Header({ titlePrefix, imagePreview, pathname }: Props) {
           .map(({ label, page, link }) => (
             <li key={label}>
               {page ? (
-                <Link to={page} className={pathname === page ? "active" : ""}>
+                <Link
+                  to={page}
+                  prefetch="intent"
+                  className={pathname === page ? "active" : ""}
+                >
                   {label}
                 </Link>
               ) : (

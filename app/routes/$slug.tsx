@@ -11,27 +11,31 @@ export function links() {
 }
 
 export const loader = async ({ params, request }: DataFunctionArgs) => {
-  console.time("notion_page");
-  console.time("notion_page_full");
   const pathname = new URL(request.url).pathname;
   const { slug } = params;
-  const filteredDatabase = await getDatabase({
-    database_id: process.env.NOTION_DATABASE_ID ?? "",
-    filter: {
-      property: "Slug",
-      rich_text: {
-        equals: slug ?? "",
-      },
-    },
-  });
-  console.timeEnd("notion_page");
+  const filteredDatabase =
+    slug === ""
+      ? null
+      : await getDatabase({
+          database_id: process.env.NOTION_DATABASE_ID ?? "",
+          filter: {
+            property: "Slug",
+            rich_text: {
+              equals: slug ?? "",
+            },
+          },
+        });
 
-  const pageTitle = filteredDatabase[0].properties["Page"].type === "title" ? (
-    filteredDatabase[0].properties["Page"].title[0].plain_text
-  ) : "";
-  const blocks = await getBlockChildren(filteredDatabase[0].id);
-  console.timeEnd("notion_page_full");
+  const pageTitle =
+    filteredDatabase &&
+       filteredDatabase[0].properties["Page"].type === "title"
+        ? filteredDatabase[0].properties["Page"].title[0].plain_text
+        : ""
 
+  const blocks =
+    filteredDatabase &&
+       await getBlockChildren(filteredDatabase[0].id)
+      
   return {
     pageTitle,
     blocks,

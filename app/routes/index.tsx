@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from "remix";
+import { Link, NavLink, Outlet, useLoaderData } from "remix";
 import { getDatabase } from "~/notion.server";
 import Header from "~/components/header";
 import { PostedDate } from "~/components/posted-date";
@@ -57,11 +57,10 @@ export default function Index() {
               return isPublished;
             }
           })
-          .map((post) => {
+          .map((post, id) => {
             const slug =
               post.properties["Slug"].type === "rich_text"
-                ? post.properties["Slug"].rich_text[0]?.plain_text ??
-                  "empty-slug"
+                ? post.properties["Slug"].rich_text[0]?.plain_text ?? ""
                 : "";
             const dateString =
               post.properties["Date"].type === "date"
@@ -81,12 +80,12 @@ export default function Index() {
                 : false;
 
             return (
-              <div className="postPreview" key={slug}>
+              <div className="postPreview" key={id}>
                 <div>
                   {isPublished ? null : <div className="draftBadge">Draft</div>}
-                  <Link prefetch="intent" to={`/${slug}`}>
+                  <NavLink rel="prefetch" prefetch="render" to={slug}>
                     <h3>{title}</h3>
-                  </Link>
+                  </NavLink>
                 </div>
                 <PostedDate dateString={dateString} />
                 {excerpt === "" ? null : <p className={`excerpt`}>{excerpt}</p>}
