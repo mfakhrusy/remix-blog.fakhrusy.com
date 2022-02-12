@@ -3,6 +3,7 @@ import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
 import { set } from "@upstash/redis";
 import { NotionQueryResultObject } from "~/types/notion";
+import { NotionBlockChildren } from "~/types/notion-block-children";
 
 const notionClient = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -12,14 +13,20 @@ export const getBlockChildren = async (blockId: string) => {
   const blocks = [];
   let cursor;
   while (true) {
-    const { results, next_cursor } = (await notionClient.blocks.children.list({
-      start_cursor: cursor,
-      block_id: blockId,
-    })) as { results: any[]; next_cursor: string };
+    const blockChildren: NotionBlockChildren =
+      (await notionClient.blocks.children.list({
+        start_cursor: cursor,
+        block_id: blockId,
+      })) as NotionBlockChildren;
+
+    const { results, next_cursor } = blockChildren;
+
     blocks.push(...results);
+
     if (!next_cursor) {
       break;
     }
+
     cursor = next_cursor;
   }
   return blocks;
@@ -75,12 +82,9 @@ const seedBlog = async (params: QueryDatabaseParameters) => {
       blocks,
     };
 
-    if (post.isPublished) {
-      set(`blogPost:${post.slug}`, JSON.stringify(obj));
-    }
+    set(`blogPost:${post.slug}`, JSON.stringify(obj));
   }
 };
-
 
 export default async function handler(request: any, response: any) {
   await seedBlog({ database_id: process.env.NOTION_DATABASE_ID as string });

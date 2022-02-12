@@ -3,6 +3,7 @@ import { Client } from "@notionhq/client/build/src";
 import { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints";
 import { set } from "@upstash/redis";
 import { NotionQueryResultObject } from "~/types/notion";
+import { NotionBlockChildren } from "~/types/notion-block-children";
 
 const notionClient = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -15,7 +16,7 @@ export const getBlockChildren = async (blockId: string) => {
     const { results, next_cursor } = (await notionClient.blocks.children.list({
       start_cursor: cursor,
       block_id: blockId,
-    })) as { results: any[]; next_cursor: string };
+    })) as NotionBlockChildren;
     blocks.push(...results);
     if (!next_cursor) {
       break;
@@ -75,9 +76,7 @@ const seedBlog = async (params: QueryDatabaseParameters) => {
       blocks,
     };
 
-    if (post.isPublished) {
-      set(`blogPost:${post.slug}`, JSON.stringify(obj));
-    }
+    set(`blogPost:${post.slug}`, JSON.stringify(obj));
   }
 };
 

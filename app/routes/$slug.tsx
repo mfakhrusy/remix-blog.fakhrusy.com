@@ -5,6 +5,7 @@ import Header from "~/components/header";
 import renderBlock from "~/utils/render-notion-block";
 import blogStyles from "~/styles/blog.css";
 import { get } from "@upstash/redis";
+import { BlogPost } from "~/types/blog-post";
 
 export function links() {
   return [{ rel: "stylesheet", href: blogStyles }];
@@ -14,7 +15,7 @@ export const loader = async ({ params, request }: DataFunctionArgs) => {
   const pathname = new URL(request.url).pathname;
   const { slug } = params;
   const blogPostRedis = await get(`blogPost:${slug}`);
-  const { title, blocks } = JSON.parse(blogPostRedis.data);
+  const { title, blocks } = JSON.parse(blogPostRedis.data) as BlogPost;
 
   return {
     pageTitle: title,

@@ -5,7 +5,7 @@ import blogStyles from "~/styles/blog.css";
 import { useEffect } from "react";
 import { DataFunctionArgs } from "@remix-run/server-runtime";
 import { get } from "@upstash/redis";
-import { BlogIndexObject } from "~/types/notion";
+import { BlogIndex } from "~/types/blog-index";
 
 export function links() {
   return [{ rel: "stylesheet", href: blogStyles }];
@@ -14,7 +14,7 @@ export function links() {
 export const loader = async ({ request }: DataFunctionArgs) => {
   const pathname = new URL(request.url).pathname;
   const blogIndexRedis = await get("blogIndex");
-  const posts: Array<BlogIndexObject> = JSON.parse(blogIndexRedis.data);
+  const posts: Array<BlogIndex> = JSON.parse(blogIndexRedis.data);
 
   return {
     posts,
